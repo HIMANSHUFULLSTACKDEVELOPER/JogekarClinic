@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wiwara Grampanchayat - Digital Village Portal</title>
+ 
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+ 
+  <style>
+    body {
+      width: 100vw;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+ 
+    .main-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      min-height: 100vh;
+    }
+
+    /* Enhanced Navbar */
+    .navbar {
+      background: rgba(13, 17, 23, 0.95) !important;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-brand img {
+      border-radius: 50%;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+ 
+    .carousel-item img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      filter: brightness(0.8);
+    }
+ 
+    /* Enhanced Overlay */
+    .carousel-title-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      background: linear-gradient(135deg, rgba(255, 107, 71, 0.9), rgba(230, 57, 70, 0.9));
+      padding: 30px 50px;
+      border-radius: 20px;
+      font-size: 3rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .carousel-subtitle {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+ 
+    @media (max-width: 768px) {
+      .carousel-title-overlay {
+        font-size: 2rem;
+        padding: 20px 30px;
+        white-space: normal;
+      }
+      .carousel-subtitle {
+        font-size: 1rem;
+      }
+    }
+ 
+    /* Enhanced Info Boxes */
+    .info-boxes {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+ 
+    .info-box {
+      background: white;
+      color: #333;
+      width: 100%;
+      max-width: 100%;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      position: relative;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .info-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b47, #ff8e53);
+      transition: all 0.4s ease;
+    }
+
+    .info-box:hover::before {
+      left: 0;
+    }
+
+    /* Highlighted box (second one) */
+    .info-box:nth-child(2) {
+      background: linear-gradient(135deg, #ff6b47, #ff8e53);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .info-box:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-box:nth-child(2):hover {
+      transform: translateY(-10px) scale(1.1);
+    }
+ 
+    .info-box i {
+      font-size: 3.5rem;
+      margin-bottom: 25px;
+      transition: all 0.4s ease;
+    }
+
+    .info-box:nth-child(1) i { color: #667eea; }
+    .info-box:nth-child(3) i { color: #764ba2; }
+    .info-box:nth-child(4) i { color: #ff6b47; }
+    .info-box:nth-child(2) i { color: white; }
+ 
+    .info-box:hover i {
+      transform: scale(1.2) rotate(10deg);
+    }
+ 
+    .info-box h4 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      letter-spacing: 0.5px;
+    }
+ 
+    .info-box p {
+      font-size: 1rem;
+      line-height: 1.6;
+      opacity: 0.8;
+      margin: 0;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    }
+
+    .welcome-card {
+      background: white;
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(255, 107, 71, 0.1), transparent);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+
+    .welcome-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Services Grid */
+    .services-section {
+      padding: 80px 0;
+      background: white;
+    }
+
+    .service-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      height: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: white;
+      font-size: 2rem;
+    }
+
+    /* News & Updates */
+    .news-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, rgba(255, 107, 71, 0.05), rgba(230, 57, 70, 0.05));
+    }
+
+    .news-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .news-image {
+      height: 200px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, #fff, #f0f0f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    /* Footer */
+    .footer {
+      background: #1a1a1a;
+      color: white;
+      padding: 60px 0 20px;
+    }
+
+    .footer-section h5 {
+      color: #ff6b47;
+      margin-bottom: 20px;
+    }
+
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ff6b47;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .info-boxes {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 40px auto;
+        gap: 15px;
+      }
+      
+      .info-box {
+        padding: 25px 20px;
+      }
+      
+      .info-box i {
+        font-size: 2.5rem;
+      }
+      
+      .info-box h4 {
+        font-size: 1.2rem;
+      }
+      
+      .info-box p {
+        font-size: 0.9rem;
+      }
+
+      .welcome-card {
+        padding: 30px;
+      }
+
+      .carousel-item img {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+ 
+<body>
+  <div class="main-container">
+ 
+    <!-- NAVBAR START -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+ 
+        <!-- Logo and Title -->
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="https://images.unsplash.com/photo-1599582909646-d10fc97ebfcb?w=50&h=50&fit=crop&crop=center" alt="Logo" width="50" height="50" class="me-2" />
+          <span class="fw-bold">Wiwara GP</span>
+        </a>
+ 
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+ 
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarsExample04">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item"><a class="nav-link active" href="#"
+              data-en="Home" data-hi="होम" data-mr="मुख्यपृष्ठ">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                 data-en="About" data-hi="परिचय" data-mr="परिचय">About</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#"
+                    data-en="Village History" data-hi="गावाचा इतिहास" data-mr="गावाचा इतिहास">Village History</a></li>
+                <li><a class="dropdown-item" href="#"
+                    data-en="Demographics" data-hi="लोकसंख्या माहिती" data-mr="लोकसंख्या माहिती">Demographics</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                 data-en="Services" data-hi="सेवा" data-mr="सेवा">Services</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#"
+                    data-en="Certificates" data-hi="प्रमाणपत्रे" data-mr="प्रमाणपत्रे">Certificates</a></li>
+                <li><a class="dropdown-item" href="#"
+                    data-en="Tax Payment" data-hi="कर भरणा" data-mr="कर भरणा">Tax Payment</a></li>
+                <li><a class="dropdown-item" href="#"
+                    data-en="Water Supply" data-hi="पाणीपुरवठा" data-mr="पाणीपुरवठा">Water Supply</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                 data-en="Schemes" data-hi="योजना" data-mr="योजना">Schemes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                 data-en="Contact" data-hi="संपर्क" data-mr="संपर्क">Contact</a>
+            </li>
+          </ul>
+ 
+          <form class="d-flex me-3" role="search">
+            <input class="form-control" type="search" placeholder="Search..." />
+          </form>
+ 
+          <button id="theme-toggle" class="btn btn-outline-light me-2">
+            <i class="bi bi-moon-fill" id="theme-icon"></i>
+          </button>
+ 
+          <select id="lang-select" class="form-select w-auto">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="mr">मराठी</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+    <!-- NAVBAR END -->
+ 
+    <!-- CAROUSEL with enhanced overlay -->
+    <div class="position-relative" style="margin-top: 56px;">
+      <div class="carousel-title-overlay text-center">
+        <div data-en="Wiwara Grampanchayat" data-hi="विवारा ग्रामपंचायत" data-mr="विवारा ग्रामपंचायत">Wiwara Grampanchayat</div>
+        <div class="carousel-subtitle" data-en="Digital Village Portal" data-hi="डिजिटल गाव पोर्टल" data-mr="डिजिटल गाव पोर्टल">Digital Village Portal</div>
+      </div>
+ 
+      <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600&q=80" class="d-block" alt="Village Landscape" />
+          </div>
+          <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600&q=80" class="d-block" alt="Rural Beauty" />
+          </div>
+          <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600&q=80" class="d-block" alt="Mountain Village" />
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    </div>
+    <!-- CAROUSEL END -->
+ 
+    <!-- INFO BOXES SECTION -->
+    <section class="info-boxes" aria-label="Key features">
+      <div class="info-box" tabindex="0">
+        <i class="bi bi-people-fill" aria-hidden="true"></i>
+        <h4 data-en="Community" data-hi="समुदाय" data-mr="समुदाय">Community</h4>
+        <p data-en="Connect with neighbors and local events"
+           data-hi="पडोसी आणि स्थानिक कार्यक्रमांशी जोडा"
+           data-mr="शेजाऱ्यांशी आणि स्थानिक कार्यक्रमांशी संपर्क साधा">Connect with neighbors and local events</p>
+      </div>
+      <div class="info-box" tabindex="0">
+        <i class="bi bi-droplet-fill" aria-hidden="true"></i>
+        <h4 data-en="Water Supply" data-hi="पाणीपुरवठा" data-mr="पाणीपुरवठा">Water Supply</h4>
+        <p data-en="24/7 reliable water services"
+           data-hi="24/7 विश्वसनीय पाणी सेवा"
+           data-mr="24/7 विश्वसनीय पाणी सेवा">24/7 reliable water services</p>
+      </div>
+      <div class="info-box" tabindex="0">
+        <i class="bi bi-file-earmark-text-fill" aria-hidden="true"></i>
+        <h4 data-en="Documents" data-hi="कागदपत्रे" data-mr="कागदपत्रे">Documents</h4>
+        <p data-en="Digital certificates and online forms"
+           data-hi="डिजिटल प्रमाणपत्रे आणि ऑनलाइन फॉर्म"
+           data-mr="डिजिटल प्रमाणपत्रे आणि ऑनलाइन फॉर्म">Digital certificates and online forms</p>
+      </div>
+      <div class="info-box" tabindex="0">
+        <i class="bi bi-megaphone-fill" aria-hidden="true"></i>
+        <h4 data-en="Updates" data-hi="अपडेट्स" data-mr="अपडेट्स">Updates</h4>
+        <p data-en="Real-time news and announcements"
+           data-hi="रिअल-टाइम बातम्या आणि जाहिराती"
+           data-mr="रिअल-टाइम बातम्या आणि जाहिराती">Real-time news and announcements</p>
+      </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="welcome-card">
+              <div class="welcome-content">
+                <h2 class="mb-4" data-en="Welcome to Wiwara Grampanchayat" 
+                    data-hi="विवारा ग्रामपंचायतमध्ये आपले स्वागत आहे" 
+                    data-mr="विवारा ग्रामपंचायतमध्ये आपले स्वागत आहे">Welcome to Wiwara Grampanchayat</h2>
+                <p class="lead mb-4" data-en="Embracing digital transformation to serve our community better. Access government services, stay connected with local developments, and be part of our growing digital village ecosystem." 
+                   data-hi="आमच्या समुदायाची अधिक चांगली सेवा करण्यासाठी डिजिटल परिवर्तन स्वीकारत आहोत. सरकारी सेवांमध्ये प्रवेश करा, स्थानिक विकासाशी जुडलेले राहा." 
+                   data-mr="आमच्या समुदायाची अधिक चांगली सेवा करण्यासाठी डिजिटल परिवर्तन स्वीकारत आहोत. सरकारी सेवांमध्ये प्रवेश करा, स्थानिक विकासाशी जुडलेले राहा.">Embracing digital transformation to serve our community better. Access government services, stay connected with local developments, and be part of our growing digital village ecosystem.</p>
+                <div class="row text-center">
+                  <div class="col-md-4">
+                    <i class="bi bi-shield-check text-primary fs-1"></i>
+                    <h5 class="mt-2" data-en="Secure Services" data-hi="सुरक्षित सेवा" data-mr="सुरक्षित सेवा">Secure Services</h5>
+                  </div>
+                  <div class="col-md-4">
+                    <i class="bi bi-clock text-success fs-1"></i>
+                    <h5 class="mt-2" data-en="24/7 Access" data-hi="24/7 प्रवेश" data-mr="24/7 प्रवेश">24/7 Access</h5>
+                  </div>
+                  <div class="col-md-4">
+                    <i class="bi bi-people text-info fs-1"></i>
+                    <h5 class="mt-2" data-en="Community First" data-hi="समुदाय प्रथम" data-mr="समुदाय प्रथम">Community First</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section">
+      <div class="container">
+        <h2 class="text-center mb-5" data-en="Our Services" data-hi="आमच्या सेवा" data-mr="आमच्या सेवा">Our Services</h2>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card text-center">
+              <div class="service-icon">
+                <i class="bi bi-file-earmark-medical"></i>
+              </div>
+              <h4 data-en="Birth/Death Certificates" data-hi="जन्म/मृत्यू प्रमाणपत्र" data-mr="जन्म/मृत्यू प्रमाणपत्र">Birth/Death Certificates</h4>
+              <p data-en="Quick and hassle-free certificate services" data-hi="द्रुत आणि सोप्या प्रमाणपत्र सेवा" data-mr="द्रुत आणि सोप्या प्रमाणपत्र सेवा">Quick and hassle-free certificate services</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card text-center">
+              <div class="service-icon">
+                <i class="bi bi-credit-card"></i>
+              </div>
+              <h4 data-en="Online Tax Payment" data-hi="ऑनलाइन कर भरणा" data-mr="ऑनलाइन कर भरणा">Online Tax Payment</h4>
+              <p data-en="Pay your property taxes securely online" data-hi="आपले मालमत्ता कर सुरक्षितपणे ऑनलाइन भरा" data-mr="आपले मालमत्ता कर सुरक्षितपणे ऑनलाइन भरा">Pay your property taxes securely online</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card text-center">
+              <div class="service-icon">
+                <i class="bi bi-house-gear"></i>
+              </div>
+              <h4 data-en="Building Permits" data-hi="बांधकाम परवाने" data-mr="बांधकाम परवाने">Building Permits</h4>
+              <p data-en="Apply for construction permits online" data-hi="बांधकाम परवान्यासाठी ऑनलाइन अर्ज करा" data-mr="बांधकाम परवान्यासाठी ऑनलाइन अर्ज करा">Apply for construction permits online</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card text-center">
+              <div class="service-icon">
+                <i class="bi bi-droplet-half"></i>
+              </div>
+              <h4 data-en="Water Connection" data-hi="पाणी कनेक्शन" data-mr="पाणी कनेक्शन">Water Connection</h4>
+              <p data-en="New water connections and bill payments" data-hi="नवीन पाणी कनेक्शन आणि बिल भरणा" data-mr="नवीन पाणी कनेक्शन आणि बिल भरणा">New water connections and bill payments</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card text-center">
+              <div class="service-icon">
+                <i class="bi bi-clipboard-check"></i>
+              </div>
+              <h4 data-en="Government Schemes" data-hi="सरकारी योजना" data-mr="सरकारी योजना">Government Schemes</h4>
+              <p data-en="Apply for various government benefit schemes" data-hi="विविध सरकारी लाभ योजनांसाठी अर्ज करा" data-mr="विविध सरकारी लाभ योजनांसाठी अर्ज करा">Apply for various government benefit schemes</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card text-center">
+              <div class="service-icon">
+                <i class="bi bi-telephone"></i>
+              </div>
+              <h4 data-en="Helpdesk Support" data-hi="हेल्पडेस्क सपोर्ट" data-mr="हेल्पडेस्क सपोर्ट">Helpdesk Support</h4>
+              <p data-en="24/7 customer support for all services" data-hi="सर्व सेवांसाठी 24/7 ग्राहक सहाय्य" data-mr="सर्व सेवांसाठी 24/7 ग्राहक सहाय्य">24/7 customer support for all services</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+              <div class="stat-number">2,450</div>
+              <div class="stat-label" data-en="Total Population" data-hi="एकूण लोकसंख्या" data-mr="एकूण लोकसंख्या">Total Population</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+              <div class="stat-number">580</div>
+              <div class="stat-label" data-en="Households" data-hi="कुटुंबे" data-mr="कुटुंबे">Households</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+              <div class="stat-number">15</div>
+              <div class="stat-label" data-en="Online Services" data-hi="ऑनलाइन सेवा" data-mr="ऑनलाइन सेवा">Online Services</div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-card">
+              <div class="stat-number">98%</div>
+              <div class="stat-label" data-en="Satisfaction Rate" data-hi="समाधान दर" data-mr="समाधान दर">Satisfaction Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- News & Updates Section -->
+    <section class="news-section">
+      <div class="container">
+        <h2 class="text-center mb-5" data-en="Latest News & Updates" data-hi="ताज्या बातम्या आणि अपडेट्स" data-mr="ताज्या बातम्या आणि अपडेट्स">Latest News & Updates</h2>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="news-card">
+              <div class="news-image">
+                <i class="bi bi-water"></i>
+              </div>
+              <div class="p-4">
+                <h5 data-en="Water Supply Upgrade" data-hi="पाणीपुरवठा सुधारणा" data-mr="पाणीपुरवठा सुधारणा">Water Supply Upgrade</h5>
+                <p class="text-muted small">March 15, 2025</p>
+                <p data-en="New water treatment plant operational, ensuring 24/7 clean water supply to all households." 
+                   data-hi="नवीन पाणी प्रक्रिया केंद्र कार्यरत, सर्व घरांना 24/7 स्वच्छ पाणी पुरवठा सुनिश्चित करत आहे." 
+                   data-mr="नवीन पाणी प्रक्रिया केंद्र कार्यरत, सर्व घरांना 24/7 स्वच्छ पाणी पुरवठा सुनिश्चित करत आहे.">New water treatment plant operational, ensuring 24/7 clean water supply to all households.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="news-card">
+              <div class="news-image">
+                <i class="bi bi-laptop"></i>
+              </div>
+              <div class="p-4">
+                <h5 data-en="Digital Literacy Program" data-hi="डिजिटल साक्षरता कार्यक्रम" data-mr="डिजिटल साक्षरता कार्यक्रम">Digital Literacy Program</h5>
+                <p class="text-muted small">March 10, 2025</p>
+                <p data-en="Free computer and internet training sessions for senior citizens starting next week." 
+                   data-hi="वरिष्ठ नागरिकांसाठी मोफत संगणक आणि इंटरनेट प्रशिक्षण सत्र पुढील आठवड्यापासून सुरू." 
+                   data-mr="वरिष्ठ नागरिकांसाठी मोफत संगणक आणि इंटरनेट प्रशिक्षण सत्र पुढील आठवड्यापासून सुरू.">Free computer and internet training sessions for senior citizens starting next week.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="news-card">
+              <div class="news-image">
+                <i class="bi bi-tree"></i>
+              </div>
+              <div class="p-4">
+                <h5 data-en="Green Village Initiative" data-hi="हरित गाव उपक्रम" data-mr="हरित गाव उपक्रम">Green Village Initiative</h5>
+                <p class="text-muted small">March 5, 2025</p>
+                <p data-en="Community tree plantation drive achieved target of 1000 trees. Thank you for participation!" 
+                   data-hi="सामुदायिक वृक्षारोपण मोहिमेने 1000 झाडांचे लक्ष्य गाठले. सहभागाबद्दल धन्यवाद!" 
+                   data-mr="सामुदायिक वृक्षारोपण मोहिमेने 1000 झाडांचे लक्ष्य गाठले. सहभागाबद्दल धन्यवाद!">Community tree plantation drive achieved target of 1000 trees. Thank you for participation!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <h5 data-en="Wiwara Grampanchayat" data-hi="विवारा ग्रामपंचायत" data-mr="विवारा ग्रामपंचायत">Wiwara Grampanchayat</h5>
+              <p data-en="Committed to serving our community through digital innovation and transparent governance." 
+                 data-hi="डिजिटल नवाचार आणि पारदर्शक शासनाद्वारे आमच्या समुदायाची सेवा करण्यास वचनबद्ध." 
+                 data-mr="डिजिटल नवाचार आणि पारदर्शक शासनाद्वारे आमच्या समुदायाची सेवा करण्यास वचनबद्ध.">Committed to serving our community through digital innovation and transparent governance.</p>
+              <div class="mt-3">
+                <a href="#" class="text-light me-3"><i class="bi bi-facebook fs-4"></i></a>
+                <a href="#" class="text-light me-3"><i class="bi bi-twitter fs-4"></i></a>
+                <a href="#" class="text-light me-3"><i class="bi bi-instagram fs-4"></i></a>
+                <a href="#" class="text-light"><i class="bi bi-youtube fs-4"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 mb-4">
+            <div class="footer-section">
+              <h5 data-en="Quick Links" data-hi="द्रुत लिंक्स" data-mr="द्रुत लिंक्स">Quick Links</h5>
+              <ul class="list-unstyled footer-links">
+                <li><a href="#" data-en="About Us" data-hi="आमच्याबद्दल" data-mr="आमच्याबद्दल">About Us</a></li>
+                <li><a href="#" data-en="Services" data-hi="सेवा" data-mr="सेवा">Services</a></li>
+                <li><a href="#" data-en="News" data-hi="बातम्या" data-mr="बातम्या">News</a></li>
+                <li><a href="#" data-en="Contact" data-hi="संपर्क" data-mr="संपर्क">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="footer-section">
+              <h5 data-en="Services" data-hi="सेवा" data-mr="सेवा">Services</h5>
+              <ul class="list-unstyled footer-links">
+                <li><a href="#" data-en="Certificates" data-hi="प्रमाणपत्रे" data-mr="प्रमाणपत्रे">Certificates</a></li>
+                <li><a href="#" data-en="Tax Payment" data-hi="कर भरणा" data-mr="कर भरणा">Tax Payment</a></li>
+                <li><a href="#" data-en="Water Bills" data-hi="पाणी बिले" data-mr="पाणी बिले">Water Bills</a></li>
+                <li><a href="#" data-en="Complaints" data-hi="तक्रारी" data-mr="तक्रारी">Complaints</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="footer-section">
+              <h5 data-en="Contact Info" data-hi="संपर्क माहिती" data-mr="संपर्क माहिती">Contact Info</h5>
+              <p><i class="bi bi-geo-alt me-2"></i> Wiwara Village, Nagpur, Maharashtra</p>
+              <p><i class="bi bi-telephone me-2"></i> +91 98765 43210</p>
+              <p><i class="bi bi-envelope me-2"></i> info@wiwaragram.gov.in</p>
+              <p><i class="bi bi-clock me-2"></i> 
+                <span data-en="Mon-Fri: 9AM-6PM" data-hi="सोम-शुक्र: 9AM-6PM" data-mr="सोम-शुक्र: 9AM-6PM">Mon-Fri: 9AM-6PM</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="mb-0" 
+               data-en="© 2025 Wiwara Grampanchayat. All rights reserved." 
+               data-hi="© 2025 विवारा ग्रामपंचायत. सर्व हक्क राखीव." 
+               data-mr="© 2025 विवारा ग्रामपंचायत. सर्व हक्क राखीव.">© 2025 Wiwara Grampanchayat. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="text-light me-3" data-en="Privacy Policy" data-hi="गोपनीयता धोरण" data-mr="गोपनीयता धोरण">Privacy Policy</a>
+            <a href="#" class="text-light" data-en="Terms of Service" data-hi="सेवा अटी" data-mr="सेवा अटी">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+ 
+  </div>
+ 
+  <!-- BOOTSTRAP SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+ 
+  <!-- Custom JavaScript -->
+  <script>
+    // Enhanced Theme toggle with smooth transitions
+    const toggleBtn = document.getElementById("theme-toggle");
+    const icon = document.getElementById("theme-icon");
+    const body = document.body;
+    const mainContainer = document.querySelector('.main-container');
+
+    toggleBtn.addEventListener("click", () => {
+      body.classList.toggle("bg-dark");
+      body.classList.toggle("text-white");
+      mainContainer.classList.toggle("bg-dark");
+      mainContainer.classList.toggle("text-white");
+      
+      // Toggle all cards and sections
+      document.querySelectorAll('.info-box, .service-card, .news-card, .welcome-card').forEach(card => {
+        card.classList.toggle("bg-dark");
+        card.classList.toggle("text-white");
+      });
+      
+      icon.classList.toggle("bi-moon-fill");
+      icon.classList.toggle("bi-sun-fill");
+    });
+ 
+    // Enhanced Language Selector with smooth transitions
+    function switchLanguage(lang) {
+      document.querySelectorAll("[data-en]").forEach((el) => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (text) {
+          el.style.opacity = '0';
+          setTimeout(() => {
+            el.textContent = text;
+            el.style.opacity = '1';
+          }, 150);
+        }
+      });
+    }
+ 
+    document.getElementById("lang-select").addEventListener("change", function () {
+      const lang = this.value;
+      switchLanguage(lang);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe elements for animation
+    document.querySelectorAll('.info-box, .service-card, .news-card, .stat-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Counter animation for statistics
+    function animateCounter(element, start, end, duration) {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const current = Math.floor(progress * (end - start) + start);
+        if (element.textContent.includes('%')) {
+          element.textContent = current + '%';
+        } else {
+          element.textContent = current.toLocaleString();
+        }
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    // Trigger counter animations when stats section is visible
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counters = entry.target.querySelectorAll('.stat-number');
+          const values = [2450, 580, 15, 98];
+          counters.forEach((counter, index) => {
+            animateCounter(counter, 0, values[index], 2000);
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    });
+
+    const statsSection = document.querySelector('.stats-section');
+    if (statsSection) {
+      statsObserver.observe(statsSection);
+    }
+
+    // Add hover effects to navigation items
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-2px)';
+        this.style.transition = 'transform 0.3s ease';
+      });
+      
+      link.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+      });
+    });
+
+    // Loading animation
+    window.addEventListener('load', () => {
+      document.body.style.opacity = '0';
+      document.body.style.transition = 'opacity 0.5s ease';
+      setTimeout(() => {
+        document.body.style.opacity = '1';
+      }, 100);
+    });
+  </script>
+</body>
+</html>
